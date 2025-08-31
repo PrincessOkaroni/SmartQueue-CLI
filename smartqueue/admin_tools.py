@@ -28,6 +28,30 @@ def admin_dashboard(location_name, username, password):
             print(f"ID: {b.id}, Name: {b.patient_name}, Priority: {b.priority}, Status: {b.status}")
     session.close()
 
+def process_next(location, username, password):
+    """Mark the next user in queue as served."""
+    admin = check_admin(username, password)
+    if not admin:
+        print("Invalid credentials.")
+        return
+
+    session = SessionLocal()
+    next_booking = (
+        session.query(Booking)
+        .filter_by(location=location, status="waiting")
+        .order_by(Booking.priority.desc(), Booking.created_at)
+        .first()
+    )
+
+    if not next_booking:
+        print("No users to process.")
+    else:
+        print(f"Processing next user: {next_booking.name} (ID: {next_booking.id})")
+        next_booking.status = "completed"
+        session.add(next_booking)
+        session.commit()
+        print("User has been marked as completed.")
+    session.close()
 
 def analytics(location_name, username, password):
     """Show basic analytics for a location."""

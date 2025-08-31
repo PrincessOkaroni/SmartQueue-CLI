@@ -10,9 +10,10 @@ from smartqueue.db import (
     Location,
     Notification,
 )
-from smartqueue.queue_manager import book_appointment, check_status, notify_user
+from smartqueue.queue_manager import book_appointment, check_status, notify_user, process_next
 from smartqueue.admin_tools import admin_dashboard, analytics
-
+from smartqueue.queue_manager import reschedule_appointment
+from smartqueue.queue_manager import cancel_booking
 
 def list_locations():
     session = SessionLocal()
@@ -53,11 +54,30 @@ def main():
     dashboard_parser.add_argument("username", help="Admin username")
     dashboard_parser.add_argument("password", help="Admin password")
 
+    #process-next 
+    process_parser = subparsers.add_parser("process-next", help="Process the next user in queue")
+    process_parser.add_argument("location", help="Location name")
+    process_parser.add_argument("username", help="Admin username")
+    process_parser.add_argument("password", help="Admin password")
+
+
     # Analytics command
     analytics_parser = subparsers.add_parser("analytics", help="Show analytics data")
     analytics_parser.add_argument("location", help="Location name")
     analytics_parser.add_argument("username", help="Admin username")
     analytics_parser.add_argument("password", help="Admin password")
+
+    # reschedule command 
+    reschedule_parser = subparsers.add_parser("reschedule", help="Reschedule an existing appointment")
+    reschedule_parser.add_argument("location", type=str, help="Location name")
+    reschedule_parser.add_argument("patient_name", type=str, help="Patient name")
+    reschedule_parser.add_argument("priority", type=str, nargs="?", default="normal", help="New priority (normal/emergency)")
+    
+    # cancel command
+    cancel_parser = subparsers.add_parser("cancel", help="Cancel a booking")
+    cancel_parser.add_argument("location", help="Location name")
+    cancel_parser.add_argument("patient_name", help="Patient name")
+
 
     # Locations command
     subparsers.add_parser("locations", help="List all available locations")
@@ -91,6 +111,15 @@ def main():
 
     elif args.command == "locations":
         list_locations()
+
+    elif args.command == "process-next":
+        process_next(args.location, args.username, args.password)
+
+    elif args.command == "reschedule":
+        print(reschedule_appointment(args.location, args.patient_name, args.priority))
+
+    elif args.command == "cancel":
+        print(cancel_booking(args.location, args.patient_name))
 
     elif args.command == "initdb":
         init_db()
