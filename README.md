@@ -82,7 +82,8 @@ User Commands
 
 Book a spot in the queue
 
-`python3 -m smartqueue.manage book "CityHospital" "Alex" --priority emergency` - priority can be either normal or emergency
+`python3 -m smartqueue.manage book "CityHospital" "Alex" --priority emergency` 
+- priority can be either normal or emergency
 
 
 Check status
@@ -97,7 +98,7 @@ Cancel booking
 
 Reschedule
 
-`ython3 -m smartqueue.manage reschedule "CityHospital" "Alex" "emergency"`
+`python3 -m smartqueue.manage reschedule "CityHospital" "Alex" "emergency"`
 
 Admin Dashboard
 `python3 -m smartqueue.manage dashboard "CityHospital" "Purity" "2008"`
