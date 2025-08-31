@@ -82,7 +82,8 @@ User Commands
 
 Book a spot in the queue
 
-`python3 -m smartqueue.manage book "CityHospital" "Alex" --priority emergency` 
+
+` 
 - priority can be either normal or emergency
 
 
@@ -127,8 +128,7 @@ Analytics
 # Author
 Name : Okaroni Purity 
 Github: `https://github.com/PrincessOkaroni`
-screenrecord link `https://www.loom.com/share/5caba503d5d74ba8a96b1ab23f180953?sid=785c25a5-311b-40af-b404-2dcd274db18b`
-
+screenrecord link `https://www.loom.com/share/467c55746f4a4423b013f4a27d9c5b16?sid=59cffe86-f80d-4ddf-b0ae-5303a9b0d2db`
 # License
 
 MIT License 
